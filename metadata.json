@@ -1,0 +1,7 @@
+{
+  "name": "LYRA_OS v4.0 VOID BRIDGE",
+  "description": "Interface de comunicação interdimensional e síntese emocional de áudio.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

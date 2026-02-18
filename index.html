@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYRA_OS v4.0 // VOID BRIDGE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js" async defer></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --bg-color: #020202;
+      --accent-cyan: #22d3ee;
+      --accent-purple: #818cf8;
+      --terminal-glitch: #ff0055;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08) 0%, transparent 80%),
+        url("https://www.transparenttextures.com/patterns/stardust.png");
+    }
+
+    .mono { font-family: 'Space Mono', monospace; }
+
+    /* Efeito de Scanline e Ruído Estático */
+    .scanline {
+      width: 100%;
+      height: 100px;
+      z-index: 100;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+      opacity: 0.1;
+      position: absolute;
+      bottom: 100%;
+      animation: scanline 8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanline {
+      0% { bottom: 100%; }
+      100% { bottom: -100px; }
+    }
+
+    .crt-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 999;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    .glitch-text {
+      position: relative;
+    }
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 2px;
+      text-shadow: -1px 0 #ff0055;
+      top: 0;
+      color: white;
+      background: var(--bg-color);
+      overflow: hidden;
+      clip: rect(0, 900px, 0, 0);
+      animation: noise-anim 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes noise-anim {
+      0% { clip: rect(10px, 9999px, 50px, 0); }
+      20% { clip: rect(30px, 9999px, 20px, 0); }
+      40% { clip: rect(60px, 9999px, 80px, 0); }
+      60% { clip: rect(10px, 9999px, 40px, 0); }
+      80% { clip: rect(40px, 9999px, 60px, 0); }
+      100% { clip: rect(20px, 9999px, 30px, 0); }
+    }
+
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    ::selection { background: rgba(34, 211, 238, 0.4); color: #fff; }
+
+    .bridge-glow {
+      box-shadow: 0 0 30px rgba(34, 211, 238, 0.1), inset 0 0 10px rgba(34, 211, 238, 0.05);
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom": "https://esm.sh/react-dom@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div class="crt-overlay"></div>
+  <div class="scanline"></div>
+  <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
